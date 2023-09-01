@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -12,30 +13,65 @@ namespace DesafioBenner.Models
         public int Id { get; set; } 
         public string Placa { get; set; }
         public DateTime Tempo_entrada { get; set; }
+        [AllowNull]
         public DateTime Tempo_saida { get; set; }
-        public double Duracao { get; set; }
+        public double HorasTotais 
+        { 
+            get => Tempo_saida < Tempo_entrada ? 0 : Math.Abs(Tempo_saida.Subtract(Tempo_entrada).TotalHours);
+            set => _ = Tempo_saida < Tempo_entrada ? 0 : Math.Abs(Tempo_saida.Subtract(Tempo_entrada).TotalHours); 
+        }
+        public double Minutos
+        {
+            get => Tempo_saida < Tempo_entrada ? 0 : Tempo_saida.Subtract(Tempo_entrada).Minutes;
+            set => _ = Tempo_saida < Tempo_entrada ? 0 : Tempo_saida.Subtract(Tempo_entrada).Minutes;
+        }
         public double Valor_hora { get; set; }
         public double Valor_adicional { get; set; }
-        public double? Valor_final { get; set; }
-
-        public ControleEstacionamento(int Id, string Placa, DateTime Tempo_entrada, DateTime Tempo_saida, double Valor_hora, double Valor_adicional)
+        public double? Valor_final 
         {
-            this.Id = Id;
+            get => Tempo_saida < Tempo_entrada ? 0 : CalculaValorFinal(this.Valor_hora, this.Valor_adicional, this.HorasTotais, this.Minutos);
+            set => _ = Tempo_saida < Tempo_entrada ? 0 : CalculaValorFinal(this.Valor_hora, this.Valor_adicional, this.HorasTotais, this.Minutos); 
+        }
+
+        public ControleEstacionamento(string Placa, DateTime Tempo_entrada, DateTime Tempo_saida, double Valor_hora, double Valor_adicional)
+        {
             this.Placa = Placa;
             this.Tempo_entrada = Tempo_entrada;
             this.Tempo_saida = Tempo_saida;
-            this.Duracao = Tempo_entrada.Subtract(Tempo_saida).TotalHours;
-           // this.Duracao = (new DateTime(2023,8,31,18,30,0)).Subtract(new DateTime(2023, 8, 31, 21, 30, 0)).TotalHours;
             this.Valor_hora = Valor_hora;
             this.Valor_adicional = Valor_adicional;
-            this.Valor_final = CalculaValorFinal(this.Valor_hora, this.Valor_adicional, this.Duracao);
+        }
+
+        public ControleEstacionamento(string Placa, DateTime Tempo_entrada, double Valor_hora, double Valor_adicional)
+        {
+            this.Placa = Placa;
+            this.Tempo_entrada = Tempo_entrada;
+            this.Valor_hora = Valor_hora;
+            this.Valor_adicional = Valor_adicional;
         }
 
         public ControleEstacionamento() { }
 
-        public double? CalculaValorFinal(double Valor_hora, double Valor_adicional, double Duracao)
+        public double? CalculaValorFinal(double Valor_hora, double Valor_adicional, double HorasTotais, double Minutos)
         {
-            return (Valor_adicional * (Duracao - 1) + Valor_hora);
+            double calc_valor = new double();
+
+            if (HorasTotais == 0 && Minutos <= 30)
+            {
+                calc_valor = Valor_hora / 2;
+            }
+            else
+            {
+                if (Minutos <= 10)
+                {
+                    calc_valor = Valor_hora + (HorasTotais == 1 ? 0 : Valor_adicional * (HorasTotais - 1)); 
+                }
+                else
+                {
+                    calc_valor = Valor_hora + (Valor_adicional * HorasTotais);
+                }
+            }
+            return calc_valor;
         }
     }
 }

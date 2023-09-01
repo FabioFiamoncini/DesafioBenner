@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using DesafioBenner.Models;
 using DesafioBenner.Data;
+using DesafioBenner.Models;
 
 namespace DesafioBenner.Controllers
 {
@@ -56,7 +56,7 @@ namespace DesafioBenner.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Placa,Tempo_entrada,Tempo_saida,Duracao,Valor_hora,Valor_adicional,Valor_final")] ControleEstacionamento controleEstacionamento)
+        public async Task<IActionResult> Create([Bind("Id,Placa,Tempo_entrada,HorasTotais,Minutos,Valor_hora,Valor_adicional,Valor_final")] ControleEstacionamento controleEstacionamento)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace DesafioBenner.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Placa,Tempo_entrada,Tempo_saida,Duracao,Valor_hora,Valor_adicional,Valor_final")] ControleEstacionamento controleEstacionamento)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Placa,Tempo_entrada,Tempo_saida,HorasTotais,Minutos,Valor_hora,Valor_adicional,Valor_final")] ControleEstacionamento controleEstacionamento)
         {
             if (id != controleEstacionamento.Id)
             {
