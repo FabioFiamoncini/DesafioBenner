@@ -1,0 +1,53 @@
+﻿@model IEnumerable<DesafioBenner.Models.Precos>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Valor_inicial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Valor_adicional)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Data_inicial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Data_final)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Valor_inicial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Valor_adicional)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data_inicial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data_final)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

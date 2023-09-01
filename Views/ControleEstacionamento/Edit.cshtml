@@ -1,0 +1,64 @@
+﻿@model DesafioBenner.Models.ControleEstacionamento
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>ControleEstacionamento</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Placa" class="control-label"></label>
+                <input asp-for="Placa" class="form-control" />
+                <span asp-validation-for="Placa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tempo_entrada" class="control-label"></label>
+                <input asp-for="Tempo_entrada" class="form-control" />
+                <span asp-validation-for="Tempo_entrada" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tempo_saida" class="control-label"></label>
+                <input asp-for="Tempo_saida" class="form-control" />
+                <span asp-validation-for="Tempo_saida" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duracao" class="control-label"></label>
+                <input asp-for="Duracao" class="form-control" />
+                <span asp-validation-for="Duracao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Valor_hora" class="control-label"></label>
+                <input asp-for="Valor_hora" class="form-control" />
+                <span asp-validation-for="Valor_hora" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Valor_adicional" class="control-label"></label>
+                <input asp-for="Valor_adicional" class="form-control" />
+                <span asp-validation-for="Valor_adicional" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Valor_final" class="control-label"></label>
+                <input asp-for="Valor_final" class="form-control" />
+                <span asp-validation-for="Valor_final" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
