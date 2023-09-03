@@ -13,14 +13,17 @@ Versões do SQL Server Express, que contém a instalação do LocalDB (2019+), p
 > https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb?view=sql-server-ver16
 
 Com o LocalDB, para criar o banco de dados, dentro do Visual Studio acessar o Console do Gerenciador de Pacotes do NuGet e executar os seguintes comandos (requer EF 7):
-Add-Migration <nome>
+
+Add-Migration migr
+
 Update-Database
 
+
 Com o banco de dados criado no LocalDB, o aplicativo pode ser executado.
---
+
 
 Instruções de uso:
-
+--
 O aplicativo simula um sistema de controle de estacionamento, em que o usuário pode registrar as entradas, saídas e parâmetrizar os preços aplicados por período.
 
 O usuário inicialmente deve ir no cadastro de preços, acessado pelo menu superior em qualquer página, onde deve ser cadastrado um valor inicial cobrado na primeira hora, e o valor
