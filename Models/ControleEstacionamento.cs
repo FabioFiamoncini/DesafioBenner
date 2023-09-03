@@ -51,6 +51,7 @@ namespace DesafioBenner.Models
             this.Valor_adicional = Valor_adicional;
         }
 
+
         public ControleEstacionamento() { }
 
     }

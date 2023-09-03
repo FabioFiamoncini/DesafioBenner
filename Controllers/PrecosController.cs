@@ -52,8 +52,6 @@ namespace DesafioBenner.Controllers
         }
 
         // POST: Precos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Valor_inicial,Valor_adicional,Data_inicial,Data_final")] Precos precos)
@@ -84,8 +82,6 @@ namespace DesafioBenner.Controllers
         }
 
         // POST: Precos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Valor_inicial,Valor_adicional,Data_inicial,Data_final")] Precos precos)

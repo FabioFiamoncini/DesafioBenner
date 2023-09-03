@@ -28,7 +28,7 @@ namespace DesafioBenner.Controllers
                           Problem("Entity set 'DesafioBennerContext.ControleEstacionamento'  is null.");
         }
 
-        // Método que executa a busca por meio de uma nova View programada para retornar uma List com a expressão filtrada
+        // Função que executa a busca, chamando uma nova View programada para retornar uma List com a expressão filtrada
         public async Task<IActionResult> IndexFilter(string busca)
         {
             return busca != null ?
@@ -182,13 +182,17 @@ namespace DesafioBenner.Controllers
             }
             else
             {
-                if (c.Minutos <= 10)
+                if (c.HorasTotais == 0 && c.Minutos > 30)
                 {
-                    c.Valor_final = (c.Valor_hora + (c.HorasTotais == 1 ? 0 : c.Valor_adicional * (c.HorasTotais - 2)));
+                    c.Valor_final = c.Valor_hora;
                 }
-                else
+                else if (c.HorasTotais > 0 && c.Minutos <= 10)
                 {
                     c.Valor_final = (c.Valor_hora + (c.Valor_adicional * (c.HorasTotais - 1)));
+                }
+                else // (c.HorasTotais > 0 && c.Minutos >= 10)
+                {
+                    c.Valor_final = (c.Valor_hora + (c.Valor_adicional * (c.HorasTotais)));
                 }
             }
 

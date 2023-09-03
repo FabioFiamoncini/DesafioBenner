@@ -4,17 +4,18 @@
     ViewData["Title"] = "Parking Car - Controle Estacionamento";
 }
 
-<p>
+<div id="formContainer">
+<span>
     <a class="btn-success btn" asp-action="Create">Registrar Entrada</a>
-</p>
+</span>
 
-@using (Html.BeginForm("IndexFilter", "ControleEstacionamento", FormMethod.Get))
-{
-    <p>
-        <input type="text" name="busca" placeholder="Procurar pela placa">
+<form action="/ControleEstacionamento/IndexFilter">
+    <span>
+        Filtrar Placa: <input type="text" name="busca">
         <button type="submit">Buscar</button>
-    </p>
-}
+    </span>
+</form>
+</div>
 
 <table class="table">
     <thead>

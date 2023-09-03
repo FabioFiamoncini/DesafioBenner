@@ -23,4 +23,15 @@ body {
 
 #logoContainer {
     text-align: center;
+    margin-bottom: 3vw;
+}
+
+.form-control {
+    margin-bottom: 1vw;
+}
+
+#formContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1vw;
 }
