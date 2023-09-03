@@ -14,7 +14,7 @@ Versões do SQL Server Express, que contém a instalação do LocalDB (2019+), p
 
 Com o LocalDB, para criar o banco de dados, dentro do Visual Studio acessar o Console do Gerenciador de Pacotes do NuGet e executar os seguintes comandos (requer EF 7):
 
-Add-Migration migr
+Add-Migration migrx
 
 Update-Database
 
