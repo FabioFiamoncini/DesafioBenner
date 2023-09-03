@@ -4,8 +4,8 @@ Parking Car - Controle de estacionamento
 
 Aplicativo Web desenvolvido em C#, utilizando as seguintes tecnologias open source:
 
-  Templates do ASP.NET MVC
-  Pacotes do Entity Framework 7
+  Templates do ASP.NET MVC;
+  Pacotes do Entity Framework 7;
   IDE Visual Studio 2022 (pacotes de banco de dados, SQL Server Express/LocalDB)
 
 A solução requer uma instância do banco de dados local em LocalDB para ser executada.
