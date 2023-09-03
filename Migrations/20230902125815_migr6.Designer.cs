@@ -4,6 +4,7 @@ using DesafioBenner.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DesafioBenner.Migrations
 {
     [DbContext(typeof(DesafioBennerContext))]
-    partial class DesafioBennerContextModelSnapshot : ModelSnapshot
+    [Migration("20230902125815_migr6")]
+    partial class migr6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,9 +43,6 @@ namespace DesafioBenner.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PrecosId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Tempo_entrada")
                         .HasColumnType("datetime2");
 
@@ -59,8 +59,6 @@ namespace DesafioBenner.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PrecosId");
 
                     b.ToTable("ControleEstacionamento");
                 });
@@ -88,18 +86,6 @@ namespace DesafioBenner.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Precos");
-                });
-
-            modelBuilder.Entity("DesafioBenner.Models.ControleEstacionamento", b =>
-                {
-                    b.HasOne("DesafioBenner.Models.Precos", null)
-                        .WithMany("Controles")
-                        .HasForeignKey("PrecosId");
-                });
-
-            modelBuilder.Entity("DesafioBenner.Models.Precos", b =>
-                {
-                    b.Navigation("Controles");
                 });
 #pragma warning restore 612, 618
         }

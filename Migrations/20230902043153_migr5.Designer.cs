@@ -4,6 +4,7 @@ using DesafioBenner.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DesafioBenner.Migrations
 {
     [DbContext(typeof(DesafioBennerContext))]
-    partial class DesafioBennerContextModelSnapshot : ModelSnapshot
+    [Migration("20230902043153_migr5")]
+    partial class migr5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,37 +33,32 @@ namespace DesafioBenner.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double?>("HorasTotais")
+                    b.Property<double>("HorasTotais")
                         .HasColumnType("float");
 
-                    b.Property<double?>("Minutos")
+                    b.Property<double>("Minutos")
                         .HasColumnType("float");
 
                     b.Property<string>("Placa")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PrecosId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Tempo_entrada")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("Tempo_saida")
+                    b.Property<DateTime>("Tempo_saida")
                         .HasColumnType("datetime2");
 
-                    b.Property<double?>("Valor_adicional")
+                    b.Property<double>("Valor_adicional")
                         .HasColumnType("float");
 
                     b.Property<double?>("Valor_final")
                         .HasColumnType("float");
 
-                    b.Property<double?>("Valor_hora")
+                    b.Property<double>("Valor_hora")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PrecosId");
 
                     b.ToTable("ControleEstacionamento");
                 });
@@ -88,18 +86,6 @@ namespace DesafioBenner.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Precos");
-                });
-
-            modelBuilder.Entity("DesafioBenner.Models.ControleEstacionamento", b =>
-                {
-                    b.HasOne("DesafioBenner.Models.Precos", null)
-                        .WithMany("Controles")
-                        .HasForeignKey("PrecosId");
-                });
-
-            modelBuilder.Entity("DesafioBenner.Models.Precos", b =>
-                {
-                    b.Navigation("Controles");
                 });
 #pragma warning restore 612, 618
         }

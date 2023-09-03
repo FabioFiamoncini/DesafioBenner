@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,26 +15,24 @@ namespace DesafioBenner.Models
     {
         public int Id { get; set; } 
         public string Placa { get; set; }
+        [DisplayName("Tempo Entrada")]
         public DateTime Tempo_entrada { get; set; }
-        [AllowNull]
-        public DateTime Tempo_saida { get; set; }
-        public double HorasTotais 
-        { 
-            get => Tempo_saida < Tempo_entrada ? 0 : Math.Abs(Tempo_saida.Subtract(Tempo_entrada).TotalHours);
-            set => _ = Tempo_saida < Tempo_entrada ? 0 : Math.Abs(Tempo_saida.Subtract(Tempo_entrada).TotalHours); 
-        }
-        public double Minutos
-        {
-            get => Tempo_saida < Tempo_entrada ? 0 : Tempo_saida.Subtract(Tempo_entrada).Minutes;
-            set => _ = Tempo_saida < Tempo_entrada ? 0 : Tempo_saida.Subtract(Tempo_entrada).Minutes;
-        }
-        public double Valor_hora { get; set; }
-        public double Valor_adicional { get; set; }
-        public double? Valor_final 
-        {
-            get => Tempo_saida < Tempo_entrada ? 0 : CalculaValorFinal(this.Valor_hora, this.Valor_adicional, this.HorasTotais, this.Minutos);
-            set => _ = Tempo_saida < Tempo_entrada ? 0 : CalculaValorFinal(this.Valor_hora, this.Valor_adicional, this.HorasTotais, this.Minutos); 
-        }
+        [DisplayName("Tempo Saída")]
+        public DateTime? Tempo_saida { get; set; }
+        [DisplayName("Total de Horas")]
+        public double? HorasTotais { get; set; }
+        public double? Minutos { get; set; }
+        [DisplayName("Valor/Hora Inicial")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        public double? Valor_hora { get; set; }
+        [DisplayName("Valor/Hora Adicional")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        public double? Valor_adicional { get; set; }
+        [DisplayName("Valor Final")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        public double? Valor_final { get; set; }
+        [ForeignKey("Precos")]
+        public int? PrecosId { get; set; }
 
         public ControleEstacionamento(string Placa, DateTime Tempo_entrada, DateTime Tempo_saida, double Valor_hora, double Valor_adicional)
         {
@@ -42,7 +43,7 @@ namespace DesafioBenner.Models
             this.Valor_adicional = Valor_adicional;
         }
 
-        public ControleEstacionamento(string Placa, DateTime Tempo_entrada, double Valor_hora, double Valor_adicional)
+        public ControleEstacionamento(string Placa, DateTime Tempo_entrada, double? Valor_hora, double? Valor_adicional)
         {
             this.Placa = Placa;
             this.Tempo_entrada = Tempo_entrada;
@@ -52,26 +53,5 @@ namespace DesafioBenner.Models
 
         public ControleEstacionamento() { }
 
-        public double? CalculaValorFinal(double Valor_hora, double Valor_adicional, double HorasTotais, double Minutos)
-        {
-            double calc_valor = new double();
-
-            if (HorasTotais == 0 && Minutos <= 30)
-            {
-                calc_valor = Valor_hora / 2;
-            }
-            else
-            {
-                if (Minutos <= 10)
-                {
-                    calc_valor = Valor_hora + (HorasTotais == 1 ? 0 : Valor_adicional * (HorasTotais - 1)); 
-                }
-                else
-                {
-                    calc_valor = Valor_hora + (Valor_adicional * HorasTotais);
-                }
-            }
-            return calc_valor;
-        }
     }
 }

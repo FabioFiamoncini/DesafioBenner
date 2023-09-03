@@ -8,7 +8,7 @@
     <a class="btn-success btn" asp-action="Create">Registrar Entrada</a>
 </p>
 
-@using (Html.BeginForm("IndexFilter", "ControleEstacionamento", FormMethod.Post))
+@using (Html.BeginForm("IndexFilter", "ControleEstacionamento", FormMethod.Get))
 {
     <p>
         <input type="text" name="busca" placeholder="Procurar pela placa">
@@ -65,13 +65,13 @@
                 @Html.DisplayFor(modelItem => item.Minutos)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Valor_hora)
+                R$ @Html.DisplayFor(modelItem => item.Valor_hora)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Valor_adicional)
+                R$ @Html.DisplayFor(modelItem => item.Valor_adicional)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Valor_final)
+                R$ @Html.DisplayFor(modelItem => item.Valor_final)
             </td>
             <td>
                 <a class="btn-warning btn" asp-action="Edit" asp-route-id="@item.Id">Registrar Saída</a> 

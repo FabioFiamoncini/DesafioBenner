@@ -4,6 +4,7 @@ using DesafioBenner.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DesafioBenner.Migrations
 {
     [DbContext(typeof(DesafioBennerContext))]
-    partial class DesafioBennerContextModelSnapshot : ModelSnapshot
+    [Migration("20230902150708_migr9")]
+    partial class migr9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +43,7 @@ namespace DesafioBenner.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PrecosId")
+                    b.Property<int>("PrecosId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Tempo_entrada")
@@ -94,7 +97,9 @@ namespace DesafioBenner.Migrations
                 {
                     b.HasOne("DesafioBenner.Models.Precos", null)
                         .WithMany("Controles")
-                        .HasForeignKey("PrecosId");
+                        .HasForeignKey("PrecosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DesafioBenner.Models.Precos", b =>

@@ -24,26 +24,19 @@ namespace DesafioBenner.Controllers
         {
               return _context.ControleEstacionamento != null ? 
                           View(await _context.ControleEstacionamento.ToListAsync()) :
+                       //   View(await _context.ControleEstacionamento.Where(c => c.Placa.Contains(teste)).ToListAsync()) :
                           Problem("Entity set 'DesafioBennerContext.ControleEstacionamento'  is null.");
         }
 
-        // GET: ControleEstacionamento/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // Método que executa a busca por meio de uma nova View programada para retornar uma List com a expressão filtrada
+        public async Task<IActionResult> IndexFilter(string busca)
         {
-            if (id == null || _context.ControleEstacionamento == null)
-            {
-                return NotFound();
-            }
-
-            var controleEstacionamento = await _context.ControleEstacionamento
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (controleEstacionamento == null)
-            {
-                return NotFound();
-            }
-
-            return View(controleEstacionamento);
+            return busca != null ?
+                View(await _context.ControleEstacionamento.Where(c => c.Placa.Contains(busca)).ToListAsync()) :
+                RedirectToAction(nameof(Index));
         }
+
+
 
         // GET: ControleEstacionamento/Create
         public IActionResult Create()
@@ -52,14 +45,23 @@ namespace DesafioBenner.Controllers
         }
 
         // POST: ControleEstacionamento/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Placa,Tempo_entrada,HorasTotais,Minutos,Valor_hora,Valor_adicional,Valor_final")] ControleEstacionamento controleEstacionamento)
+        public async Task<IActionResult> Create([Bind("Id,Placa,Tempo_entrada")] ControleEstacionamento controleEstacionamento)
         {
             if (ModelState.IsValid)
             {
+
+                // Atribuição dos valores provenientes da tabela de preços
+                var vigenciapreco = _context.Precos
+                 .FirstOrDefault(p => controleEstacionamento.Tempo_entrada >= p.Data_inicial && controleEstacionamento.Tempo_entrada <= p.Data_final);
+
+                if (vigenciapreco != null)
+                {
+                    controleEstacionamento.Valor_hora = vigenciapreco.Valor_inicial;
+                    controleEstacionamento.Valor_adicional = vigenciapreco.Valor_adicional;
+                }
+
                 _context.Add(controleEstacionamento);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -84,8 +86,6 @@ namespace DesafioBenner.Controllers
         }
 
         // POST: ControleEstacionamento/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Placa,Tempo_entrada,Tempo_saida,HorasTotais,Minutos,Valor_hora,Valor_adicional,Valor_final")] ControleEstacionamento controleEstacionamento)
@@ -99,6 +99,10 @@ namespace DesafioBenner.Controllers
             {
                 try
                 {
+                    // Funções para setar os valores de horas, minutos, e calcular o valor final
+                    DefineTempo(controleEstacionamento);
+                    CalculaValorFinal(controleEstacionamento);
+
                     _context.Update(controleEstacionamento);
                     await _context.SaveChangesAsync();
                 }
@@ -159,5 +163,36 @@ namespace DesafioBenner.Controllers
         {
           return (_context.ControleEstacionamento?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        public ControleEstacionamento DefineTempo(ControleEstacionamento c)
+        {
+            var tsaida = Convert.ToDateTime(c.Tempo_saida);
+
+            c.HorasTotais = tsaida < c.Tempo_entrada ? 0 : Math.Floor(tsaida.Subtract(c.Tempo_entrada).TotalHours);
+            c.Minutos = tsaida < c.Tempo_entrada ? 0 : tsaida.Subtract(c.Tempo_entrada).Minutes;
+
+            return c;
+        }
+
+        public ControleEstacionamento CalculaValorFinal(ControleEstacionamento c)
+        {
+            if (c.HorasTotais == 0 && c.Minutos <= 30)
+            {
+                c.Valor_final = c.Valor_hora / 2;
+            }
+            else
+            {
+                if (c.Minutos <= 10)
+                {
+                    c.Valor_final = (c.Valor_hora + (c.HorasTotais == 1 ? 0 : c.Valor_adicional * (c.HorasTotais - 2)));
+                }
+                else
+                {
+                    c.Valor_final = (c.Valor_hora + (c.Valor_adicional * (c.HorasTotais - 1)));
+                }
+            }
+
+            return c;
+        } 
     }
 }
