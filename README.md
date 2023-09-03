@@ -3,13 +3,13 @@
 Parking Car - Controle de estacionamento
 
 Aplicativo Web desenvolvido em C#, utilizando as seguintes tecnologias open source:
-> Templates do ASP.NET MVC
-> Pacotes do Entity Framework 7
-> IDE Visual Studio 2022 (pacotes de banco de dados, SQL Server Express/LocalDB)
+• Templates do ASP.NET MVC
+• Pacotes do Entity Framework 7
+• IDE Visual Studio 2022 (pacotes de banco de dados, SQL Server Express/LocalDB)
 
 A solução requer uma instância do banco de dados local em LocalDB para ser executada.
 Versões do SQL Server Express, que contém a instalação do LocalDB (2019+), podem ser baixadas no link abaixo, na seção "Installation media":
->> https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb?view=sql-server-ver16
+> https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb?view=sql-server-ver16
 
 Com o LocalDB, para criar o banco de dados, dentro do Visual Studio acessar o Console do Gerenciador de Pacotes do NuGet e executar os seguintes comandos (requer EF 7):
 Add-Migration <nome>
